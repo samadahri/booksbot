@@ -4,9 +4,9 @@ import scrapy
 
 class BooksSpider(scrapy.Spider):
     name = "books"
-    allowed_domains = ["books.toscrape.com"]
+    allowed_domains = ["wedmegood.com/vendors/all/wedding-photographers"]
     start_urls = [
-        'http://books.toscrape.com/',
+        'https://www.wedmegood.com/vendors/all/wedding-photographers/',
     ]
 
     def parse(self, response):
@@ -21,10 +21,10 @@ class BooksSpider(scrapy.Spider):
         product = response.css("div.product_main")
         item["title"] = product.css("h1 ::text").extract_first()
         item['category'] = response.xpath(
-            "//ul[@class='breadcrumb']/li[@class='active']/preceding-sibling::li[1]/a/text()"
+            "//*[@id="react-view"]/div/div/div[3]/div[3]/div[1]/div/div/div[1]/div[1]/div/div/h1"
         ).extract_first()
         item['description'] = response.xpath(
-            "//div[@id='product_description']/following-sibling::p/text()"
+            "//*[@id="card0"]/div/div[3]/div[2]/div[1]/div[1]/div[1]/a"
         ).extract_first()
         item['price'] = response.css('p.price_color ::text').extract_first()
         yield item
